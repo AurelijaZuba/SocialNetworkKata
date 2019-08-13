@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Repository {
-    public void addMessage(String username, String message) {
-        List<Message> messages = new ArrayList<>();
-        messages.add(new Message(username, message));
+    List<Message> messages = new ArrayList<>();
 
+    public void addMessage(String username, String message) {
+        messages.add(new Message(username, message));
     }
 }

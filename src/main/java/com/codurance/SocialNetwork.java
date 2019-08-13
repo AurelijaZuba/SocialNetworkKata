@@ -4,7 +4,6 @@ public class SocialNetwork {
     private Repository repository;
 
     public SocialNetwork(Repository repository) {
-
         this.repository = repository;
     }
 
