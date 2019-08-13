@@ -8,4 +8,12 @@ public class Message {
         this.username = username;
         this.message = message;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 }

@@ -9,4 +9,9 @@ public class Repository {
     public void addMessage(String username, String message) {
         messages.add(new Message(username, message));
     }
+
+    public List<Message> getMessages(String username) {
+
+        return messages;
+    }
 }
