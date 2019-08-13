@@ -11,8 +11,8 @@ public class UserPostAndWallFeature {
         SocialService socialService = new SocialService();
         SocialConsole console = new SocialConsole();
 
-        socialService.post("Alice -> I love the weather today");
-        socialService.post("Bob -> Damn! We lost!");
+        socialService.post("Alice", "Alice -> I love the weather today");
+        socialService.post("Alice", "Bob -> Damn! We lost!");
         socialService.wall("Alice");
 
 
