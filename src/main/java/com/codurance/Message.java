@@ -1,5 +1,7 @@
 package com.codurance;
 
+import java.util.Objects;
+
 public class Message {
     private final String username;
     private final String message;
@@ -16,4 +18,6 @@ public class Message {
     public String getUsername() {
         return username;
     }
+
+
 }

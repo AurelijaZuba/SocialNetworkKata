@@ -26,7 +26,7 @@ public class SocialServiceShould {
         Repository repository = new Repository();
         SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock);
 
-        repository.addMessage("Alice", "I love the weather today");
+        socialNetwork.messageParser("Alice -> I love the weather today");
         socialNetwork.messageParser("Alice wall");
 
         verify(consoleMock).print("Alice - I love the weather today");
