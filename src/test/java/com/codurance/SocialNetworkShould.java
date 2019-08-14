@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class SocialServiceShould {
+public class SocialNetworkShould {
 
     public static final String ALICE_POST_MESSAGE = "Alice -> I love the weather today";
     public static final String BOB_POST_MESSAGE = "Bob -> Damn! We lost!";
