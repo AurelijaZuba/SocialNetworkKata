@@ -11,7 +11,13 @@ public class Repository {
     }
 
     public List<Message> getMessages(String username) {
+        List<Message> result = new ArrayList<>();
 
-        return messages;
+        for (Message msg : messages) {
+            if (msg.getUsername().equals(username))
+                result.add(new Message(msg.getUsername(), msg.getMessage()));
+        }
+
+        return result;
     }
 }
