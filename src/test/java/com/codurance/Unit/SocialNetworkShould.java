@@ -1,5 +1,8 @@
-package com.codurance;
+package com.codurance.Unit;
 
+import com.codurance.Repository;
+import com.codurance.SocialConsole;
+import com.codurance.SocialNetwork;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
