@@ -8,10 +8,10 @@ import static org.mockito.Mockito.verify;
 
 public class SocialNetworkShould {
 
-    public static final String ALICE_POST_MESSAGE = "Alice -> I love the weather today";
-    public static final String BOB_POST_MESSAGE = "Bob -> Damn! We lost!";
-    public static final String ALICE_WALL = "Alice wall";
-    public static final String BOB_WALL = "Bob wall";
+    private static final String ALICE_POST_MESSAGE = "Alice -> I love the weather today";
+    private static final String BOB_POST_MESSAGE = "Bob -> Damn! We lost!";
+    private static final String ALICE_WALL = "Alice wall";
+    private static final String BOB_WALL = "Bob wall";
 
     private Repository repositoryMock;
     private SocialConsole consoleMock;

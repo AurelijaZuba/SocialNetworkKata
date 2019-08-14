@@ -7,7 +7,7 @@ import static org.mockito.Mockito.*;
 public class PostWallFeature {
 
     @Test
-    void AcceptanceTest() {
+    void AT_Post_message_and_see_it_on_users_wall() {
         SocialConsole console = mock(SocialConsole.class);
         Repository repository = new Repository();
 
