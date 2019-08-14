@@ -57,4 +57,14 @@ public class SocialNetworkShould {
         socialNetwork.messageParser(ALICE_WALL);
         verify(consoleMock).print("Alice - I love the weather today");
     }
+
+    @Test
+    void return_one_message_with_time_stamp() {
+        Repository repository = new Repository();
+        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock);
+
+        socialNetwork.messageParser(ALICE_POST_MESSAGE);
+        socialNetwork.messageParser("Alice");
+        verify(consoleMock).print("I love the weather today (5 minutes ago)");
+    }
 }
