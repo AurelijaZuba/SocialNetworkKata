@@ -12,13 +12,23 @@ public class SocialNetwork {
     }
 
     public void messageParser(String message) {
-        String[] split = message.split(" ");
+        String[] word = message.split(" ");
 
-        if(split[1].equals("wall")){
+        if(word.length == 1){
+            read(message);
+        }
+        else if(word.length == 2){
             wall(message);
         }
-        if(split[1].equals("->")) {
+        else {
             post(message);
+        }
+    }
+
+    private void read(String username) {
+        List<Message> allMessages = repository.getMessages(username);
+        for (Message m : allMessages) {
+            console.print(m.getMessage() + " (5 minutes ago)");
         }
     }
 
