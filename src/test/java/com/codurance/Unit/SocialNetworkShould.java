@@ -34,6 +34,14 @@ public class SocialNetworkShould {
     }
 
     @Test
+    void add_new_user_when_post_first_message() {
+        SocialNetwork socialNetwork = new SocialNetwork(repositoryMock, consoleMock, clockMock, userRepositoryMock);
+        socialNetwork.messageParser(ALICE_POST_MESSAGE);
+
+        verify(userRepositoryMock).addNewUser(new User("Alice"));
+    }
+
+    @Test
     void post_single_message_for_one_user() {
         SocialNetwork socialNetwork = new SocialNetwork(repositoryMock, consoleMock, clockMock, userRepositoryMock);
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
@@ -95,11 +103,12 @@ public class SocialNetworkShould {
     }
 
     @Test
-    void add_new_user_when_post_first_message() {
-        SocialNetwork socialNetwork = new SocialNetwork(repositoryMock, consoleMock, clockMock, userRepositoryMock);
-        socialNetwork.messageParser(ALICE_POST_MESSAGE);
+    void allow_one_user_to_follow_another() {
+        Repository repository = new Repository();
+        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
 
-        verify(userRepositoryMock).addUser(new User("Alice"));
+        socialNetwork.messageParser("Alice follows Bob");
+
+        verify(userRepositoryMock).follow("Alice", "Bob");
     }
-
 }

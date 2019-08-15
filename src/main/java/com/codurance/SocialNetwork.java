@@ -17,7 +17,6 @@ public class SocialNetwork {
 
     public void messageParser(String message) {
         String[] word = message.split(" ");
-
         checkUserExist(word[0]);
 
         if (word.length == 1) {
@@ -26,19 +25,33 @@ public class SocialNetwork {
         if (word.length == 2) {
             wall(message);
         }
-        if(word.length >= 4)
+        if (word.length == 3) {
+            follow(message);
+        }
+        if (word.length >= 4) {
             post(message);
+        }
 
     }
 
     private void checkUserExist(String username) {
-        userRepository.addUser(new User(username));
+        userRepository.addNewUser(new User(username));
     }
+
+    private void follow(String message) {
+        String[] splitMessage = message.split(" ");
+
+        final String userFollows = splitMessage[0].trim();
+        final String userFollowing = splitMessage[2].trim();
+
+        userRepository.follow(userFollows, userFollowing);
+    }
+
 
     private void read(String username) {
         List<Message> allMessages = repository.getMessages(username);
         for (Message m : allMessages) {
-            console.print(m.getMessage() + " (" +clock.calculateTimeDifference(clock.now()) + " minutes ago)");
+            console.print(m.getMessage() + " (" + clock.calculateTimeDifference(clock.now()) + " minutes ago)");
         }
     }
 
