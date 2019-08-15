@@ -28,7 +28,7 @@ public class SocialNetwork {
     private void read(String username) {
         List<Message> allMessages = repository.getMessages(username);
         for (Message m : allMessages) {
-            console.print(m.getMessage() + clock.now());
+            console.print(m.getMessage() + " (" +clock.calculateTimeDifference(clock.now()) + " minutes ago)");
         }
     }
 
