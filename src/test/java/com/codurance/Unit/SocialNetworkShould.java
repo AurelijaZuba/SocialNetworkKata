@@ -70,6 +70,8 @@ public class SocialNetworkShould {
         Repository repository = new Repository();
         SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock);
 
+        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(5);
+
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser("Alice");
         verify(consoleMock).print("I love the weather today (5 minutes ago)");
@@ -79,6 +81,8 @@ public class SocialNetworkShould {
     void return_two_messages_with_time_stamp() {
         Repository repository = new Repository();
         SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock);
+
+        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(5, 4);
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser("Alice -> It's raining!");
