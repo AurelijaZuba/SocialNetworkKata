@@ -8,7 +8,9 @@ public class Main {
         SocialConsole console = new SocialConsole();
         Repository repository = new Repository();
         LocalClock clock = null;
-        SocialNetwork socialNetwork = new SocialNetwork(repository, console, clock);
+        UserRepository userRepositoryMock = new UserRepository();
+
+        SocialNetwork socialNetwork = new SocialNetwork(repository, console, clock, userRepositoryMock);
         Scanner input = new Scanner(System.in);
 
         System.out.print("Welcome to Social Network!");

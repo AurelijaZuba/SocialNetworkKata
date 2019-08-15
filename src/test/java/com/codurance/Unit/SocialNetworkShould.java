@@ -21,11 +21,13 @@ public class SocialNetworkShould {
     private Repository repositoryMock;
     private SocialConsole consoleMock;
     private LocalClock clockMock;
+    private UserRepository userRepositoryMock;
 
     @BeforeEach
     void setUp() {
         repositoryMock = mock(Repository.class);
         consoleMock = mock(SocialConsole.class);
+        userRepositoryMock = mock(UserRepository.class);
 
         clockMock = mock(LocalClock.class);
         when(clockMock.now()).thenReturn(dateTime);
@@ -33,7 +35,7 @@ public class SocialNetworkShould {
 
     @Test
     void post_single_message_for_one_user() {
-        SocialNetwork socialNetwork = new SocialNetwork(repositoryMock, consoleMock, clockMock);
+        SocialNetwork socialNetwork = new SocialNetwork(repositoryMock, consoleMock, clockMock, userRepositoryMock);
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         given(clockMock.now()).willReturn(dateTime);
 
@@ -43,7 +45,7 @@ public class SocialNetworkShould {
     @Test
     void return_one_message_from_users_wall() {
         Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock);
+        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser(ALICE_WALL);
@@ -54,7 +56,7 @@ public class SocialNetworkShould {
     @Test
     void return_message_for_the_user_requesting_to_that_wall() {
         Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock);
+        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
 
         socialNetwork.messageParser(BOB_POST_MESSAGE);
         socialNetwork.messageParser(BOB_WALL);
@@ -68,7 +70,7 @@ public class SocialNetworkShould {
     @Test
     void return_one_message_with_time_stamp() {
         Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock);
+        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
 
         given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(5);
 
@@ -80,7 +82,7 @@ public class SocialNetworkShould {
     @Test
     void return_two_messages_with_time_stamp() {
         Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock);
+        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
 
         given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(5, 4);
 
@@ -90,6 +92,14 @@ public class SocialNetworkShould {
 
         verify(consoleMock).print("I love the weather today (5 minutes ago)");
         verify(consoleMock).print("It's raining! (4 minutes ago)");
+    }
+
+    @Test
+    void add_new_user_when_post_first_message() {
+        SocialNetwork socialNetwork = new SocialNetwork(repositoryMock, consoleMock, clockMock, userRepositoryMock);
+        socialNetwork.messageParser(ALICE_POST_MESSAGE);
+
+        verify(userRepositoryMock).addUser(new User("Alice"));
     }
 
 }

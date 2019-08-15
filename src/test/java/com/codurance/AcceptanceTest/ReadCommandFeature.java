@@ -1,9 +1,6 @@
 package com.codurance.AcceptanceTest;
 
-import com.codurance.LocalClock;
-import com.codurance.Repository;
-import com.codurance.SocialConsole;
-import com.codurance.SocialNetwork;
+import com.codurance.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -12,17 +9,18 @@ import java.time.Month;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-public class ReadFeature {
+public class ReadCommandFeature {
 
     @Test
     void AT_allow_users_to_read_their_feed() {
         SocialConsole console = mock(SocialConsole.class);
         LocalClock clock = mock(LocalClock.class);
         Repository repository = new Repository();
+        UserRepository userRepository = new UserRepository();
 
         when(clock.now()).thenReturn(LocalDateTime.of(2019, Month.AUGUST, 14, 15, 19));
 
-        SocialNetwork socialNetwork = new SocialNetwork(repository, console, clock);
+        SocialNetwork socialNetwork = new SocialNetwork(repository, console, clock, userRepository);
 
         given(clock.calculateTimeDifference(clock.now())).willReturn(5);
         socialNetwork.messageParser("Alice -> I love the weather today");

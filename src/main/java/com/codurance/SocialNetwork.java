@@ -6,15 +6,19 @@ public class SocialNetwork {
     private Repository repository;
     private SocialConsole console;
     private LocalClock clock;
+    private UserRepository userRepository;
 
-    public SocialNetwork(Repository repository, SocialConsole console, LocalClock clock) {
+    public SocialNetwork(Repository repository, SocialConsole console, LocalClock clock, UserRepository userRepository) {
         this.repository = repository;
         this.console = console;
         this.clock = clock;
+        this.userRepository = userRepository;
     }
 
     public void messageParser(String message) {
         String[] word = message.split(" ");
+
+        checkUserExist(word[0]);
 
         if (word.length == 1) {
             read(message);
@@ -25,6 +29,10 @@ public class SocialNetwork {
         if(word.length > 3)
             post(message);
 
+    }
+
+    private void checkUserExist(String username) {
+        userRepository.addUser(new User(username));
     }
 
     private void read(String username) {
