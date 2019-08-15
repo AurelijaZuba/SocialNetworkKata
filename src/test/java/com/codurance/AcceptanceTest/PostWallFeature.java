@@ -1,5 +1,6 @@
 package com.codurance.AcceptanceTest;
 
+import com.codurance.LocalClock;
 import com.codurance.Repository;
 import com.codurance.SocialConsole;
 import com.codurance.SocialNetwork;
@@ -12,9 +13,10 @@ public class PostWallFeature {
     @Test
     void AT_post_message_and_see_it_on_users_wall() {
         SocialConsole console = mock(SocialConsole.class);
+        LocalClock clock = mock(LocalClock.class);
         Repository repository = new Repository();
 
-        SocialNetwork socialNetwork = new SocialNetwork(repository, console);
+        SocialNetwork socialNetwork = new SocialNetwork(repository, console, clock);
 
         socialNetwork.messageParser("Alice -> I love the weather today");
         socialNetwork.messageParser("Bob -> Damn! We lost!");

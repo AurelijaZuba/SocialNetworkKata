@@ -5,22 +5,22 @@ import java.util.List;
 public class SocialNetwork {
     private Repository repository;
     private SocialConsole console;
+    private LocalClock clock;
 
-    public SocialNetwork(Repository repository, SocialConsole console) {
+    public SocialNetwork(Repository repository, SocialConsole console, LocalClock clock) {
         this.repository = repository;
         this.console = console;
+        this.clock = clock;
     }
 
     public void messageParser(String message) {
         String[] word = message.split(" ");
 
-        if(word.length == 1){
+        if (word.length == 1) {
             read(message);
-        }
-        else if(word.length == 2){
+        } else if (word.length == 2) {
             wall(message);
-        }
-        else {
+        } else {
             post(message);
         }
     }
@@ -28,7 +28,7 @@ public class SocialNetwork {
     private void read(String username) {
         List<Message> allMessages = repository.getMessages(username);
         for (Message m : allMessages) {
-            console.print(m.getMessage() + " (5 minutes ago)");
+            console.print(m.getMessage() + clock.now());
         }
     }
 
@@ -37,7 +37,7 @@ public class SocialNetwork {
 
         final String username = splitMessage[0].trim();
         final String postMessage = splitMessage[1].trim();
-        repository.addMessage(username, postMessage);
+        repository.addMessage(new Message(username, postMessage, clock.now()));
     }
 
     private void wall(String message) {

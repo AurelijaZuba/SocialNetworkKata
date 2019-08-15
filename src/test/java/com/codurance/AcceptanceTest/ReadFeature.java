@@ -1,10 +1,14 @@
 package com.codurance.AcceptanceTest;
 
+import com.codurance.LocalClock;
 import com.codurance.Repository;
 import com.codurance.SocialConsole;
 import com.codurance.SocialNetwork;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 public class ReadFeature {
@@ -13,8 +17,11 @@ public class ReadFeature {
     void AT_allow_users_to_read_their_feed() {
         SocialConsole console = mock(SocialConsole.class);
         Repository repository = new Repository();
+        LocalClock clock = mock(LocalClock.class);
 
-        SocialNetwork socialNetwork = new SocialNetwork(repository, console);
+        given(clock.now()).willReturn(LocalDateTime.now());
+
+        SocialNetwork socialNetwork = new SocialNetwork(repository, console, clock);
 
         socialNetwork.messageParser("Alice -> I love the weather today");
         socialNetwork.messageParser("Bob -> Damn! We lost!");

@@ -1,5 +1,6 @@
 package com.codurance;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
@@ -7,7 +8,8 @@ public class Main {
     public static void main(String[] args) {
         SocialConsole console = new SocialConsole();
         Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, console);
+        LocalClock clock = null;
+        SocialNetwork socialNetwork = new SocialNetwork(repository, console, clock);
         Scanner input = new Scanner(System.in);
 
         System.out.print("Welcome to Social Network!");
