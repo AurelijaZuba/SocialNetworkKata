@@ -1,6 +1,5 @@
 package com.codurance;
 
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {

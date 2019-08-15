@@ -18,11 +18,13 @@ public class SocialNetwork {
 
         if (word.length == 1) {
             read(message);
-        } else if (word.length == 2) {
-            wall(message);
-        } else {
-            post(message);
         }
+        if (word.length == 2) {
+            wall(message);
+        }
+        if(word.length > 3)
+            post(message);
+
     }
 
     private void read(String username) {
