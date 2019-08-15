@@ -26,7 +26,7 @@ public class SocialNetwork {
         if (word.length == 2) {
             wall(message);
         }
-        if(word.length > 3)
+        if(word.length >= 4)
             post(message);
 
     }
