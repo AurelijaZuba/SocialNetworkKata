@@ -28,15 +28,15 @@ public class SocialNetworkShould {
         consoleMock = mock(SocialConsole.class);
 
         clockMock = mock(LocalClock.class);
-        given(clockMock.now()).willReturn(dateTime);
+        when(clockMock.now()).thenReturn(dateTime);
     }
 
     @Test
     void post_single_message_for_one_user() {
         SocialNetwork socialNetwork = new SocialNetwork(repositoryMock, consoleMock, clockMock);
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
+        given(clockMock.now()).willReturn(dateTime);
 
-        when(clockMock.now()).thenReturn(dateTime);
         verify(repositoryMock).addMessage(new Message("Alice", "I love the weather today", clockMock.now()));
     }
 
