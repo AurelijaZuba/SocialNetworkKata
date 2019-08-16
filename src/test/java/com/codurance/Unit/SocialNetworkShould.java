@@ -18,14 +18,14 @@ public class SocialNetworkShould {
     private static final String ALICE_WALL = "Alice wall";
     private static final String BOB_WALL = "Bob wall";
 
-    private Repository repositoryMock;
+    private MessageRepository messageRepositoryMock;
     private SocialConsole consoleMock;
     private LocalClock clockMock;
     private UserRepository userRepositoryMock;
 
     @BeforeEach
     void setUp() {
-        repositoryMock = mock(Repository.class);
+        messageRepositoryMock = mock(MessageRepository.class);
         consoleMock = mock(SocialConsole.class);
         userRepositoryMock = mock(UserRepository.class);
 
@@ -35,7 +35,7 @@ public class SocialNetworkShould {
 
     @Test
     void add_new_user_when_post_first_message() {
-        SocialNetwork socialNetwork = new SocialNetwork(repositoryMock, consoleMock, clockMock, userRepositoryMock);
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepositoryMock, consoleMock, clockMock, userRepositoryMock);
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
 
         verify(userRepositoryMock).addNewUser(new User("Alice"));
@@ -43,17 +43,17 @@ public class SocialNetworkShould {
 
     @Test
     void post_single_message_for_one_user() {
-        SocialNetwork socialNetwork = new SocialNetwork(repositoryMock, consoleMock, clockMock, userRepositoryMock);
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepositoryMock, consoleMock, clockMock, userRepositoryMock);
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         given(clockMock.now()).willReturn(dateTime);
 
-        verify(repositoryMock).addMessage(new Message("Alice", "I love the weather today", clockMock.now()));
+        verify(messageRepositoryMock).addMessage(new Message("Alice", "I love the weather today", clockMock.now()));
     }
 
     @Test
     void return_one_message_from_users_wall() {
-        Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
+        MessageRepository messageRepository = new MessageRepository();
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser(ALICE_WALL);
@@ -63,8 +63,8 @@ public class SocialNetworkShould {
 
     @Test
     void return_message_for_the_user_requesting_to_that_wall() {
-        Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
+        MessageRepository messageRepository = new MessageRepository();
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
         socialNetwork.messageParser(BOB_POST_MESSAGE);
         socialNetwork.messageParser(BOB_WALL);
@@ -77,8 +77,8 @@ public class SocialNetworkShould {
 
     @Test
     void return_one_message_with_time_stamp() {
-        Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
+        MessageRepository messageRepository = new MessageRepository();
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
         given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(5);
 
@@ -89,8 +89,8 @@ public class SocialNetworkShould {
 
     @Test
     void return_two_messages_with_time_stamp() {
-        Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
+        MessageRepository messageRepository = new MessageRepository();
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
         given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(5, 4);
 
@@ -104,11 +104,14 @@ public class SocialNetworkShould {
 
     @Test
     void allow_one_user_to_follow_another() {
-        Repository repository = new Repository();
-        SocialNetwork socialNetwork = new SocialNetwork(repository, consoleMock, clockMock, userRepositoryMock);
+        MessageRepository messageRepository = new MessageRepository();
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
         socialNetwork.messageParser("Alice follows Bob");
 
         verify(userRepositoryMock).follow("Alice", "Bob");
     }
+
+
+
 }

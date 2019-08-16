@@ -6,11 +6,11 @@ public class Main {
 
     public static void main(String[] args) {
         SocialConsole console = new SocialConsole();
-        Repository repository = new Repository();
+        MessageRepository messageRepository = new MessageRepository();
         LocalClock clock = null;
         UserRepository userRepositoryMock = new UserRepository();
 
-        SocialNetwork socialNetwork = new SocialNetwork(repository, console, clock, userRepositoryMock);
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, console, clock, userRepositoryMock);
         Scanner input = new Scanner(System.in);
 
         System.out.print("Welcome to Social Network!");

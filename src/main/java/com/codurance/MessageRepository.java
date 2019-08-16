@@ -3,7 +3,7 @@ package com.codurance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Repository {
+public class MessageRepository {
     private List<Message> allMessages = new ArrayList<>();
 
 

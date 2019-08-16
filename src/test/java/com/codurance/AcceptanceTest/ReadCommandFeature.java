@@ -15,12 +15,12 @@ public class ReadCommandFeature {
     void AT_allow_users_to_read_their_feed() {
         SocialConsole console = mock(SocialConsole.class);
         LocalClock clock = mock(LocalClock.class);
-        Repository repository = new Repository();
+        MessageRepository messageRepository = new MessageRepository();
         UserRepository userRepository = new UserRepository();
 
         when(clock.now()).thenReturn(LocalDateTime.of(2019, Month.AUGUST, 14, 15, 19));
 
-        SocialNetwork socialNetwork = new SocialNetwork(repository, console, clock, userRepository);
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, console, clock, userRepository);
 
         given(clock.calculateTimeDifference(clock.now())).willReturn(5);
         socialNetwork.messageParser("Alice -> I love the weather today");

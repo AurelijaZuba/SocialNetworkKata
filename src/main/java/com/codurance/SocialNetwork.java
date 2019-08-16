@@ -3,13 +3,13 @@ package com.codurance;
 import java.util.List;
 
 public class SocialNetwork {
-    private Repository repository;
+    private MessageRepository messageRepository;
     private SocialConsole console;
     private LocalClock clock;
     private UserRepository userRepository;
 
-    public SocialNetwork(Repository repository, SocialConsole console, LocalClock clock, UserRepository userRepository) {
-        this.repository = repository;
+    public SocialNetwork(MessageRepository messageRepository, SocialConsole console, LocalClock clock, UserRepository userRepository) {
+        this.messageRepository = messageRepository;
         this.console = console;
         this.clock = clock;
         this.userRepository = userRepository;
@@ -49,7 +49,7 @@ public class SocialNetwork {
 
 
     private void read(String username) {
-        List<Message> allMessages = repository.getMessages(username);
+        List<Message> allMessages = messageRepository.getMessages(username);
         for (Message m : allMessages) {
             console.print(m.getMessage() + " (" + clock.calculateTimeDifference(clock.now()) + " minutes ago)");
         }
@@ -60,14 +60,14 @@ public class SocialNetwork {
 
         final String username = splitMessage[0].trim();
         final String postMessage = splitMessage[1].trim();
-        repository.addMessage(new Message(username, postMessage, clock.now()));
+        messageRepository.addMessage(new Message(username, postMessage, clock.now()));
     }
 
     private void wall(String message) {
         String[] splitMessage = message.split(" ");
         final String username = splitMessage[0];
 
-        List<Message> allMessages = repository.getMessages(username);
+        List<Message> allMessages = messageRepository.getMessages(username);
         for (Message m : allMessages) {
             console.print(m.getUsername() + " - " + m.getMessage());
         }
