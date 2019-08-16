@@ -1,6 +1,5 @@
 package com.codurance.Unit;
 
-import com.codurance.Following;
 import com.codurance.User;
 import com.codurance.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -48,19 +47,19 @@ public class UserRepositoryShould {
         assertThat(actualUser).isEqualTo(asList("Bob"));
     }
 
-//    @Test
-//    void return_followed_users_for_single_user() {
-//        SocialConsole consoleMock = mock(SocialConsole.class);
-//        LocalClock clockMock = mock(LocalClock.class);
-//        MessageRepository mockMessageRepository = mock(MessageRepository.class);
-//        UserRepository userRepository = new UserRepository();
-//
-//        SocialNetwork socialNetwork = new SocialNetwork(mockMessageRepository, consoleMock, clockMock, userRepository);
-//
-//        socialNetwork.messageParser("Alice follows Bob");
-//
-//        List<Following> actualUser = userRepository.getFollowedUsers(new User("Alice"));
-//        assertThat(actualUser).isEqualTo(asList("Bob"));
-//    }
+    @Test
+    void return_followed_users_for_a_user_who_followed_them() {
+        UserRepository userRepository = new UserRepository();
+
+        userRepository.follow("Alice", "Bob");
+        userRepository.follow("Alice", "James");
+        userRepository.follow("James", "Bob");
+
+        List<String> actualUser = userRepository.getFollowedUsers(new User("Alice"));
+        assertThat(actualUser).isEqualTo(asList("Bob", "James"));
+
+        List<String> actualUser2 = userRepository.getFollowedUsers(new User("James"));
+        assertThat(actualUser2).isEqualTo(asList("Bob"));
+    }
 
 }

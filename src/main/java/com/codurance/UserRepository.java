@@ -28,11 +28,12 @@ public class UserRepository {
     public List<String> getFollowedUsers(User username) {
         final String user = username.getUsername();
 
+        List<String> followedUsers = new ArrayList<>();
         for (Following following : followUsers) {
             if (following.getFollower().equals(user)) {
-                return asList(following.getFollowingUser());
+                followedUsers.add(following.getFollowingUser());
             }
         }
-        return asList();
+        return followedUsers;
     }
 }
