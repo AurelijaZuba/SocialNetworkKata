@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         SocialConsole console = new SocialConsole();
         MessageRepository messageRepository = new MessageRepository();
-        LocalClock clock = null;
+        LocalClock clock = new LocalClock();
         UserRepository userRepositoryMock = new UserRepository();
 
         SocialNetwork socialNetwork = new SocialNetwork(messageRepository, console, clock, userRepositoryMock);

@@ -17,28 +17,34 @@ public class SocialNetwork {
 
     public void messageParser(String message) {
         String[] word = message.split(" ");
+
         checkUserExist(word[0]);
 
-        if (word.length == 1) {
-            read(message);
-        }
-        if (word.length == 2) {
-            wall(message);
-        }
-        if (word.length == 3) {
-            follow(message);
-        }
-        if (word.length >= 4) {
-            post(message);
-        }
+        messageCommand(message, word);
+    }
 
+    public void messageCommand(String message, String[] splitWord) {
+        switch (splitWord.length) {
+            case 1:
+                read(message);
+                break;
+            case 2:
+                wall(message);
+                break;
+            case 3:
+                follow(message);
+                break;
+            default:
+                post(message);
+        }
     }
 
     private void checkUserExist(String username) {
         userRepository.addNewUser(new User(username));
     }
 
-    private void follow(String message) {
+    void follow(String message) {
+
         String[] splitMessage = message.split(" ");
 
         final String userFollows = splitMessage[0].trim();
@@ -47,15 +53,14 @@ public class SocialNetwork {
         userRepository.follow(userFollows, userFollowing);
     }
 
-
-    private void read(String username) {
+    void read(String username) {
         List<Message> allMessages = messageRepository.getMessages(username);
         for (Message m : allMessages) {
             console.print(m.getMessage() + " (" + clock.calculateTimeDifference(clock.now()) + " minutes ago)");
         }
     }
 
-    private void post(String message) {
+    void post(String message) {
         String[] splitMessage = message.split("->");
 
         final String username = splitMessage[0].trim();
@@ -63,7 +68,7 @@ public class SocialNetwork {
         messageRepository.addMessage(new Message(username, postMessage, clock.now()));
     }
 
-    private void wall(String message) {
+    void wall(String message) {
         String[] splitMessage = message.split(" ");
         final String username = splitMessage[0];
 
