@@ -5,7 +5,6 @@ import java.time.temporal.ChronoUnit;
 
 public class LocalClock {
     public LocalDateTime now(){
-
         return LocalDateTime.now();
     }
 
