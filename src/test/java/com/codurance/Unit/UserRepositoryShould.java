@@ -1,7 +1,7 @@
 package com.codurance.Unit;
 
-import com.codurance.User;
-import com.codurance.UserRepository;
+import com.codurance.model.User;
+import com.codurance.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

@@ -1,4 +1,9 @@
-package com.codurance;
+package com.codurance.service;
+
+import com.codurance.model.Message;
+import com.codurance.model.User;
+import com.codurance.repository.MessageRepository;
+import com.codurance.repository.UserRepository;
 
 import java.util.List;
 

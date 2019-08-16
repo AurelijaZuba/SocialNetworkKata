@@ -1,6 +1,10 @@
 package com.codurance.AcceptanceTest;
 
-import com.codurance.*;
+import com.codurance.repository.MessageRepository;
+import com.codurance.repository.UserRepository;
+import com.codurance.service.LocalClock;
+import com.codurance.service.SocialConsole;
+import com.codurance.service.SocialNetwork;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

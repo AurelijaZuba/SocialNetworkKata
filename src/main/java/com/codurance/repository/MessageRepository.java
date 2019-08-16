@@ -1,4 +1,6 @@
-package com.codurance;
+package com.codurance.repository;
+
+import com.codurance.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;

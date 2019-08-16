@@ -1,4 +1,7 @@
-package com.codurance;
+package com.codurance.repository;
+
+import com.codurance.model.Following;
+import com.codurance.model.User;
 
 import java.util.ArrayList;
 import java.util.List;

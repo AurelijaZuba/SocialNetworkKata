@@ -1,4 +1,4 @@
-package com.codurance;
+package com.codurance.service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

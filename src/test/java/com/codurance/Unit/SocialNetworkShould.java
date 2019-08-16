@@ -1,6 +1,12 @@
 package com.codurance.Unit;
 
-import com.codurance.*;
+import com.codurance.model.Message;
+import com.codurance.model.User;
+import com.codurance.repository.MessageRepository;
+import com.codurance.repository.UserRepository;
+import com.codurance.service.LocalClock;
+import com.codurance.service.SocialConsole;
+import com.codurance.service.SocialNetwork;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
