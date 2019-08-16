@@ -7,7 +7,7 @@ import com.codurance.repository.UserRepository;
 
 import java.util.List;
 
-public class SocialNetwork {
+public class SocialNetwork implements Formatter {
     private MessageRepository messageRepository;
     private SocialConsole console;
     private LocalClock clock;
@@ -31,10 +31,10 @@ public class SocialNetwork {
     public void messageCommand(String message, String[] splitWord) {
         switch (splitWord.length) {
             case 1:
-                read(message);
+                wallReadCommand(message, "read");
                 break;
             case 2:
-                wall(message);
+                wallReadCommand(message, "wall");
                 break;
             case 3:
                 follow(message);
@@ -48,24 +48,15 @@ public class SocialNetwork {
         userRepository.addNewUser(new User(username));
     }
 
-    void follow(String message) {
-
+    private void follow(String message) {
         String[] splitMessage = message.split(" ");
-
         final String userFollows = splitMessage[0].trim();
         final String userFollowing = splitMessage[2].trim();
 
         userRepository.follow(userFollows, userFollowing);
     }
 
-    void read(String username) {
-        List<Message> allMessages = messageRepository.getMessages(username);
-        for (Message m : allMessages) {
-            console.print(m.getMessage() + " (" + clock.calculateTimeDifference(clock.now()) + " minutes ago)");
-        }
-    }
-
-    void post(String message) {
+    private void post(String message) {
         String[] splitMessage = message.split("->");
 
         final String username = splitMessage[0].trim();
@@ -73,13 +64,31 @@ public class SocialNetwork {
         messageRepository.addMessage(new Message(username, postMessage, clock.now()));
     }
 
-    void wall(String message) {
-        String[] splitMessage = message.split(" ");
+    private void wallReadCommand(String post, String command) {
+        String[] splitMessage = post.split(" ");
         final String username = splitMessage[0];
 
         List<Message> allMessages = messageRepository.getMessages(username);
-        for (Message m : allMessages) {
-            console.print(m.getUsername() + " - " + m.getMessage());
+        for (Message message : allMessages) {
+            isCommand(command, message);
         }
+    }
+
+    private void isCommand(String command, Message message) {
+        if (command.equals("wall")) {
+            console.print(wallFormatter(message));
+        }
+        console.print(readFormatter(message));
+    }
+
+
+    @Override
+    public String wallFormatter(Message message) {
+        return message.getUsername() + " - " + message.getMessage();
+    }
+
+    @Override
+    public String readFormatter(Message message) {
+        return message.getMessage() + " (" + clock.calculateTimeDifference(clock.now()) + " minutes ago)";
     }
 }
