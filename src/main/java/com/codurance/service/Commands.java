@@ -58,7 +58,7 @@ public class Commands implements Formatter {
     @Override
     public String wallFormatter(Message message) {
 
-        return message.getUsername() + " - " + message.getMessage();
+        return message.getUsername() + " - " + message.getMessage() + timeDifference(message.getTime());
     }
 
     @Override

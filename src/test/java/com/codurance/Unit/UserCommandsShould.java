@@ -54,10 +54,12 @@ public class UserCommandsShould {
         MessageRepository messageRepository = new MessageRepository();
         SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
+        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(300);
+
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser(ALICE_WALL);
 
-        verify(consoleMock).print("Alice - I love the weather today");
+        verify(consoleMock).print("Alice - I love the weather today (5 minutes ago)");
     }
 
     @Test
@@ -65,13 +67,15 @@ public class UserCommandsShould {
         MessageRepository messageRepository = new MessageRepository();
         SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
+        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(120, 300);
+
         socialNetwork.messageParser(BOB_POST_MESSAGE);
         socialNetwork.messageParser(BOB_WALL);
-        verify(consoleMock).print("Bob - Damn! We lost!");
+        verify(consoleMock).print("Bob - Damn! We lost! (2 minutes ago)");
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser(ALICE_WALL);
-        verify(consoleMock).print("Alice - I love the weather today");
+        verify(consoleMock).print("Alice - I love the weather today (5 minutes ago)");
     }
 
     @Test
