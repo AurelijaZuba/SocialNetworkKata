@@ -25,14 +25,18 @@ public class UserRepository {
     }
 
     public List<String> getFollowedUsers(User username) {
-        final String user = username.getUsername();
+        String user = username.getUsername();
 
         List<String> followedUsers = new ArrayList<>();
         for (Following following : followUsers) {
-            if (following.getFollower().equals(user)) {
+            if (isFollower(user, following)) {
                 followedUsers.add(following.getFollowingUser());
             }
         }
         return followedUsers;
+    }
+
+    private boolean isFollower(String user, Following following) {
+        return following.getFollower().equals(user);
     }
 }

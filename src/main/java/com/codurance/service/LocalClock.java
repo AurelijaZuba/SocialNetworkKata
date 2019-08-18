@@ -1,33 +1,43 @@
 package com.codurance.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class LocalClock {
+
+    private int hour;
+    private int minute;
+    private int second;
 
     public LocalDateTime now() {
         return LocalDateTime.now();
     }
 
     public int calculateTimeDifference(LocalDateTime time) {
-        var one = time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        var two = now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        long timeDiff = timeFormatting(time);
+        long now = currentTimeFormatting();
 
-        String[] hourMin = one.split(":");
-        int hour = Integer.parseInt(hourMin[0]);
-        int mins = Integer.parseInt(hourMin[1]);
-        int secs = Integer.parseInt(hourMin[2]);
+        return Math.toIntExact(((int) now - timeDiff));
+    }
 
-        String[] hourMin1 = two.split(":");
-        int hour1 = Integer.parseInt(hourMin1[0]);
-        int mins1 = Integer.parseInt(hourMin1[1]);
-        int secs1 = Integer.parseInt(hourMin1[2]);
+    public long currentTimeFormatting() {
+        var currentTime = now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String[] hourMin = currentTime.split(":");
+        hour = Integer.parseInt(hourMin[0]);
+        minute = Integer.parseInt(hourMin[1]);
+        second = Integer.parseInt(hourMin[2]);
 
-        long difference = (hour * 60 - (hour1 * 60)) + (mins * 60 - (mins1 * 60)) + (secs - secs1);
+        return (hour * 60) + (minute * 60) + second;
+    }
 
-        return (int) difference;
+    public long timeFormatting(LocalDateTime time) {
+        var timeDiff = time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        String[] hourMin = timeDiff.split(":");
+        hour = Integer.parseInt(hourMin[0]);
+        minute = Integer.parseInt(hourMin[1]);
+        second = Integer.parseInt(hourMin[2]);
+        return (hour * 60) + (minute * 60) + second;
+
     }
 }

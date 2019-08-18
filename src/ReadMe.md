@@ -41,5 +41,5 @@ following: <user name> follows <another user>
 wall: <user name> wall  
 
 How to run the application:   
-In your command line enter - java jar  
+In your command line enter : **gradle jar**  
 Following with: **java -jar ./build/libs/SocialNetworkKata.jar**

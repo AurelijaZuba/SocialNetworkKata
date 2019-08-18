@@ -8,6 +8,10 @@ import java.util.List;
 public class MessageRepository {
     private List<Message> allMessages = new ArrayList<>();
 
+    public void addMessage(Message message) {
+        allMessages.add(new Message(message.getUsername(), message.getMessage(), message.getTime()));
+    }
+
     public List<Message> getMessages(String username) {
         List<Message> postedMessages = new ArrayList<>();
 
@@ -24,7 +28,4 @@ public class MessageRepository {
         return message.getUsername().equals(username);
     }
 
-    public void addMessage(Message message) {
-        allMessages.add(new Message(message.getUsername(), message.getMessage(), message.getTime()));
-    }
 }

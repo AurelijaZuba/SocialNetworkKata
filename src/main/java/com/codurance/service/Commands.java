@@ -68,7 +68,9 @@ public class Commands implements Formatter {
         if (command.equals("wall")) {
             console.print(wallFormatter(message));
         }
-        console.print(readFormatter(message));
+        if (command.equals("read")) {
+            console.print(readFormatter(message));
+        }
     }
 
     private String timeDifference(LocalDateTime time) {

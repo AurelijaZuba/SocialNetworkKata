@@ -19,9 +19,12 @@ public class Main {
         SocialNetwork socialNetwork = new SocialNetwork(messageRepository, console, clock, userRepositoryMock);
         Scanner input = new Scanner(System.in);
 
-        System.out.print("Welcome to Social Network!");
-        String command = input.nextLine();
+        System.out.print("Welcome to Social Network! \n");
 
-        socialNetwork.messageParser(command);
+        while (!"exit".equals(input)) {
+            socialNetwork.messageParser(input.nextLine());
+        }
+        System.out.print("Goodbye");
+        input.close();
     }
 }
