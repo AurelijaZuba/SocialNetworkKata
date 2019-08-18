@@ -3,7 +3,7 @@ package com.codurance.Unit;
 import com.codurance.model.Message;
 import com.codurance.repository.MessageRepository;
 import com.codurance.repository.UserRepository;
-import com.codurance.service.Command;
+import com.codurance.service.Commands;
 import com.codurance.service.LocalClock;
 import com.codurance.service.SocialConsole;
 import com.codurance.service.SocialNetwork;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 public class UserCommandsShould {
 
-    private final LocalDateTime dateTime = LocalDateTime.of(2019, Month.AUGUST, 14, 15, 19);
+    private final LocalDateTime dateTime = LocalDateTime.of(2019, Month.AUGUST, 18, 12, 19);
     private static final String ALICE_POST_MESSAGE = "Alice -> I love the weather today";
     private static final String BOB_POST_MESSAGE = "Bob -> Damn! We lost!";
     private static final String ALICE_WALL = "Alice wall";
@@ -41,8 +41,8 @@ public class UserCommandsShould {
 
     @Test
     void post_single_message_for_one_user() {
-        Command command = new Command(messageRepositoryMock, userRepositoryMock, clockMock, consoleMock);
-        command.post(ALICE_POST_MESSAGE);
+        Commands commands = new Commands(messageRepositoryMock, userRepositoryMock, clockMock, consoleMock);
+        commands.post(ALICE_POST_MESSAGE);
 
         given(clockMock.now()).willReturn(dateTime);
 
@@ -79,7 +79,7 @@ public class UserCommandsShould {
         MessageRepository messageRepository = new MessageRepository();
         SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
-        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(5);
+        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(300);
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser("Alice");
@@ -91,13 +91,28 @@ public class UserCommandsShould {
         MessageRepository messageRepository = new MessageRepository();
         SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
-        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(5, 4);
+        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(300, 240);
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser("Alice -> It's raining!");
         socialNetwork.messageParser("Alice");
 
         verify(consoleMock).print("I love the weather today (5 minutes ago)");
+        verify(consoleMock).print("It's raining! (4 minutes ago)");
+    }
+
+    @Test
+    void return_two_messages_with_time_stamp_of_minutes_and_seconds() {
+        MessageRepository messageRepository = new MessageRepository();
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
+
+        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(5, 240);
+
+        socialNetwork.messageParser(ALICE_POST_MESSAGE);
+        socialNetwork.messageParser("Alice -> It's raining!");
+        socialNetwork.messageParser("Alice");
+
+        verify(consoleMock).print("I love the weather today (5 seconds ago)");
         verify(consoleMock).print("It's raining! (4 minutes ago)");
     }
 

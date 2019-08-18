@@ -14,7 +14,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 
-public class FollowCommandFeature {
+public class FollowCommandsFeature {
 
     @Test
     void AT_users_can_follow_other_users() {
@@ -27,7 +27,7 @@ public class FollowCommandFeature {
 
         SocialNetwork socialNetwork = new SocialNetwork(messageRepository, console, clock, userRepository);
 
-        given(clock.calculateTimeDifference(clock.now())).willReturn(2, 5);
+        given(clock.calculateTimeDifference(clock.now())).willReturn(2, 300);
 
         socialNetwork.messageParser("Alice -> I love the weather today");
         socialNetwork.messageParser("Charlie -> I'm in New York today! Anyone want to have a coffee?");

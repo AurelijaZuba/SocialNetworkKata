@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
-public class PostWallCommandFeatures {
+public class PostWallCommandsFeatures {
 
     @Test
     void AT_post_message_and_see_it_on_users_wall() {

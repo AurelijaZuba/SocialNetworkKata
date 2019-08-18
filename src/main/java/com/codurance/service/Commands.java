@@ -4,16 +4,17 @@ import com.codurance.model.Message;
 import com.codurance.repository.MessageRepository;
 import com.codurance.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-public class Command implements Formatter{
+public class Commands implements Formatter {
 
     private MessageRepository messageRepository;
     private UserRepository userRepository;
     private LocalClock clock;
     private SocialConsole console;
 
-    public Command(MessageRepository messageRepository, UserRepository userRepository, LocalClock clockMock, SocialConsole consoleMock) {
+    public Commands(MessageRepository messageRepository, UserRepository userRepository, LocalClock clockMock, SocialConsole consoleMock) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
         this.clock = clockMock;
@@ -62,6 +63,15 @@ public class Command implements Formatter{
 
     @Override
     public String readFormatter(Message message) {
-        return message.getMessage() + " (" + clock.calculateTimeDifference(clock.now()) + " minutes ago)";
+        return message.getMessage() + timeDifference(message.getTime());
+    }
+
+    private String timeDifference(LocalDateTime time) {
+        var timeDifference = clock.calculateTimeDifference(time);
+        if (timeDifference < 60) {
+            return " (" + timeDifference + " seconds ago)";
+        }
+        return " (" + (timeDifference / 60) + " minutes ago)";
+
     }
 }

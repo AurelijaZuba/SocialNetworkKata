@@ -5,12 +5,12 @@ import com.codurance.repository.MessageRepository;
 import com.codurance.repository.UserRepository;
 
 public class SocialNetwork {
-    private Command command;
+    private Commands commands;
     private UserRepository userRepository;
 
     public SocialNetwork(MessageRepository messageRepository, SocialConsole console, LocalClock clockMock, UserRepository userRepository) {
         this.userRepository = userRepository;
-        command = new Command(messageRepository, userRepository, clockMock, console);
+        commands = new Commands(messageRepository, userRepository, clockMock, console);
     }
 
     public void messageParser(String message) {
@@ -24,16 +24,16 @@ public class SocialNetwork {
     public void messageCommand(String message, String[] splitWord) {
         switch (splitWord.length) {
             case 1:
-                command.wallRead(message, "read");
+                commands.wallRead(message, "read");
                 break;
             case 2:
-                command.wallRead(message, "wall");
+                commands.wallRead(message, "wall");
                 break;
             case 3:
-                command.follow(message);
+                commands.follow(message);
                 break;
             default:
-                command.post(message);
+                commands.post(message);
         }
     }
 

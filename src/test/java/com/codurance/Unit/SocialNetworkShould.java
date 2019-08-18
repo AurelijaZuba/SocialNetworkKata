@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class SocialNetworkShould {
 
-    private final LocalDateTime dateTime = LocalDateTime.of(2019, Month.AUGUST, 14, 15, 19);
+    private final LocalDateTime dateTime = LocalDateTime.of(2019, Month.AUGUST, 18, 12, 19);
     private static final String ALICE_POST_MESSAGE = "Alice -> I love the weather today";
 
     private MessageRepository messageRepositoryMock;
