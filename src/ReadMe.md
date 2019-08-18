@@ -7,12 +7,13 @@ reading: <user name>
 following: <user name> follows <another user>  
 wall: <user name> wall  
 
-How to run the application:   
+***How to run the application:***   
 In your command line enter : **gradle jar**  
-Following with: **java -jar ./build/libs/SocialNetworkKata.jar**
+Following with: **java -jar ./build/libs/SocialNetworkKata.jar**    
 
 
-**Exercise**
+
+***Exercise***
 
 Implement a console-based social networking application (similar to Twitter) satisfying the scenarios below.
 
