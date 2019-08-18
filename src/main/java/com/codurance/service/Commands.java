@@ -1,6 +1,7 @@
 package com.codurance.service;
 
 import com.codurance.model.Message;
+import com.codurance.model.User;
 import com.codurance.repository.MessageRepository;
 import com.codurance.repository.UserRepository;
 
@@ -21,7 +22,6 @@ public class Commands implements Formatter {
         this.console = consoleMock;
     }
 
-
     public void follow(String message) {
         String[] splitMessage = message.split(" ");
         final String userFollows = splitMessage[0].trim();
@@ -40,9 +40,25 @@ public class Commands implements Formatter {
 
     public void wallRead(String post, String command) {
         String[] splitMessage = post.split(" ");
-        final String username = splitMessage[0];
+        String username = splitMessage[0];
+
+        List<String> followersList = userRepository.getFollowedUsers(new User(username));
 
         List<Message> allMessages = messageRepository.getMessages(username);
+        getUserMessages(command, allMessages);
+
+        hasFollowers(command, followersList);
+    }
+
+    public void hasFollowers(String command, List<String> followersList) {
+        for (var followerMessages : followersList) {
+            List<Message> allMessages = messageRepository.getMessages(String.valueOf(followerMessages));
+
+            getUserMessages(command, allMessages);
+        }
+    }
+
+    public void getUserMessages(String command, List<Message> allMessages) {
         for (Message message : allMessages) {
             isCommand(command, message);
         }
@@ -55,9 +71,16 @@ public class Commands implements Formatter {
         console.print(readFormatter(message));
     }
 
+    private String timeDifference(LocalDateTime time) {
+        var timeDifference = clock.calculateTimeDifference(time);
+        if (timeDifference < 60) {
+            return " (" + timeDifference + " seconds ago)";
+        }
+        return " (" + (timeDifference / 60) + " minutes ago)";
+    }
+
     @Override
     public String wallFormatter(Message message) {
-
         return message.getUsername() + " - " + message.getMessage() + timeDifference(message.getTime());
     }
 
@@ -66,12 +89,4 @@ public class Commands implements Formatter {
         return message.getMessage() + timeDifference(message.getTime());
     }
 
-    private String timeDifference(LocalDateTime time) {
-        var timeDifference = clock.calculateTimeDifference(time);
-        if (timeDifference < 60) {
-            return " (" + timeDifference + " seconds ago)";
-        }
-        return " (" + (timeDifference / 60) + " minutes ago)";
-
-    }
 }

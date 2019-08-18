@@ -1,6 +1,7 @@
 package com.codurance.Unit;
 
 import com.codurance.model.Message;
+import com.codurance.model.User;
 import com.codurance.repository.MessageRepository;
 import com.codurance.repository.UserRepository;
 import com.codurance.service.Commands;
@@ -12,7 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Collections;
 
+import static java.util.Arrays.asList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -37,6 +40,8 @@ public class UserCommandsShould {
 
         clockMock = mock(LocalClock.class);
         when(clockMock.now()).thenReturn(dateTime);
+        when(userRepositoryMock.getFollowedUsers(new User("Charlie"))).thenReturn(Collections.singletonList("Alice"));
+
     }
 
     @Test
@@ -130,4 +135,20 @@ public class UserCommandsShould {
         verify(userRepositoryMock).follow("Alice", "Bob");
     }
 
+    @Test
+    void return_posted_messages_for_users_being_followed() {
+        MessageRepository messageRepository = new MessageRepository();
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
+
+        given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(2, 300);
+        given(userRepositoryMock.getFollowedUsers(new User("Charlie"))).willReturn(asList("Alice"));
+
+        socialNetwork.messageParser("Alice -> I love the weather today");
+        socialNetwork.messageParser("Charlie -> I'm in New York today! Anyone want to have a coffee?");
+        socialNetwork.messageParser("Charlie follows Alice");
+        socialNetwork.messageParser("Charlie wall");
+
+        verify(consoleMock).print("Charlie - I'm in New York today! Anyone want to have a coffee? (2 seconds ago)");
+        verify(consoleMock).print("Alice - I love the weather today (5 minutes ago)");
+    }
 }

@@ -8,7 +8,6 @@ import java.util.List;
 public class MessageRepository {
     private List<Message> allMessages = new ArrayList<>();
 
-
     public List<Message> getMessages(String username) {
         List<Message> postedMessages = new ArrayList<>();
 
@@ -21,6 +20,7 @@ public class MessageRepository {
     }
 
     private boolean isUsername(String username, Message message) {
+
         return message.getUsername().equals(username);
     }
 
