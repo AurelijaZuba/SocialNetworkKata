@@ -61,5 +61,4 @@ public class UserRepositoryShould {
         List<String> actualUser2 = userRepository.getFollowedUsers(new User("James"));
         assertThat(actualUser2).isEqualTo(asList("Bob"));
     }
-
 }
