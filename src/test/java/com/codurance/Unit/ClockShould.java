@@ -2,10 +2,7 @@ package com.codurance.Unit;
 
 import com.codurance.service.LocalClock;
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
-import java.time.Month;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ClockShould {

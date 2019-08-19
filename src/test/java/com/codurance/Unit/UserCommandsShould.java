@@ -21,10 +21,13 @@ import static org.mockito.Mockito.*;
 
 public class UserCommandsShould {
 
+    private static final String ALICE_POST_MESSAGE_WITH_TIME_STAMP_OF_FIVE_MINUTES = "Alice - I love the weather today (5 minutes ago)";
+    private static final String MESSAGE_POSTED_BY_ALICE = "I love the weather today (5 minutes ago)";
     private final LocalDateTime dateTime = LocalDateTime.of(2019, Month.AUGUST, 18, 12, 19);
     private static final String ALICE_POST_MESSAGE = "Alice -> I love the weather today";
     private static final String BOB_POST_MESSAGE = "Bob -> Damn! We lost!";
     private static final String ALICE_WALL = "Alice wall";
+    private static final String ALICE_USERNAME = "Alice";
     private static final String BOB_WALL = "Bob wall";
 
     private MessageRepository messageRepositoryMock;
@@ -40,7 +43,7 @@ public class UserCommandsShould {
 
         clockMock = mock(LocalClock.class);
         when(clockMock.now()).thenReturn(dateTime);
-        when(userRepositoryMock.getFollowedUsers(new User("Charlie"))).thenReturn(Collections.singletonList("Alice"));
+        when(userRepositoryMock.getFollowedUsers(new User("Charlie"))).thenReturn(Collections.singletonList(ALICE_USERNAME));
 
     }
 
@@ -51,7 +54,7 @@ public class UserCommandsShould {
 
         given(clockMock.now()).willReturn(dateTime);
 
-        verify(messageRepositoryMock).addMessage(new Message("Alice", "I love the weather today", clockMock.now()));
+        verify(messageRepositoryMock).addMessage(new Message(ALICE_USERNAME, "I love the weather today", clockMock.now()));
     }
 
     @Test
@@ -64,7 +67,7 @@ public class UserCommandsShould {
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser(ALICE_WALL);
 
-        verify(consoleMock).print("Alice - I love the weather today (5 minutes ago)");
+        verify(consoleMock).print(ALICE_POST_MESSAGE_WITH_TIME_STAMP_OF_FIVE_MINUTES);
     }
 
     @Test
@@ -80,7 +83,7 @@ public class UserCommandsShould {
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser(ALICE_WALL);
-        verify(consoleMock).print("Alice - I love the weather today (5 minutes ago)");
+        verify(consoleMock).print(ALICE_POST_MESSAGE_WITH_TIME_STAMP_OF_FIVE_MINUTES);
     }
 
     @Test
@@ -91,8 +94,8 @@ public class UserCommandsShould {
         given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(300);
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
-        socialNetwork.messageParser("Alice");
-        verify(consoleMock).print("I love the weather today (5 minutes ago)");
+        socialNetwork.messageParser(ALICE_USERNAME);
+        verify(consoleMock).print(MESSAGE_POSTED_BY_ALICE);
     }
 
     @Test
@@ -104,9 +107,9 @@ public class UserCommandsShould {
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser("Alice -> It's raining!");
-        socialNetwork.messageParser("Alice");
+        socialNetwork.messageParser(ALICE_USERNAME);
 
-        verify(consoleMock).print("I love the weather today (5 minutes ago)");
+        verify(consoleMock).print(MESSAGE_POSTED_BY_ALICE);
         verify(consoleMock).print("It's raining! (4 minutes ago)");
     }
 
@@ -119,7 +122,7 @@ public class UserCommandsShould {
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser("Alice -> It's raining!");
-        socialNetwork.messageParser("Alice");
+        socialNetwork.messageParser(ALICE_USERNAME);
 
         verify(consoleMock).print("I love the weather today (5 seconds ago)");
         verify(consoleMock).print("It's raining! (4 minutes ago)");
@@ -132,7 +135,7 @@ public class UserCommandsShould {
 
         socialNetwork.messageParser("Alice follows Bob");
 
-        verify(userRepositoryMock).follow("Alice", "Bob");
+        verify(userRepositoryMock).follow(ALICE_USERNAME, "Bob");
     }
 
     @Test
@@ -141,14 +144,14 @@ public class UserCommandsShould {
         SocialNetwork socialNetwork = new SocialNetwork(messageRepository, consoleMock, clockMock, userRepositoryMock);
 
         given(clockMock.calculateTimeDifference(clockMock.now())).willReturn(2, 300);
-        given(userRepositoryMock.getFollowedUsers(new User("Charlie"))).willReturn(asList("Alice"));
+        given(userRepositoryMock.getFollowedUsers(new User("Charlie"))).willReturn(asList(ALICE_USERNAME));
 
-        socialNetwork.messageParser("Alice -> I love the weather today");
+        socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser("Charlie -> I'm in New York today! Anyone want to have a coffee?");
         socialNetwork.messageParser("Charlie follows Alice");
         socialNetwork.messageParser("Charlie wall");
 
         verify(consoleMock).print("Charlie - I'm in New York today! Anyone want to have a coffee? (2 seconds ago)");
-        verify(consoleMock).print("Alice - I love the weather today (5 minutes ago)");
+        verify(consoleMock).print(ALICE_POST_MESSAGE_WITH_TIME_STAMP_OF_FIVE_MINUTES);
     }
 }
