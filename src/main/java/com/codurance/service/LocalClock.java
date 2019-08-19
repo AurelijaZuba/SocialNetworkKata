@@ -20,7 +20,7 @@ public class LocalClock {
         return Math.toIntExact(((int) now - timeDiff));
     }
 
-    public long currentTimeFormatting() {
+    private long currentTimeFormatting() {
         var currentTime = now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         String[] hourMin = currentTime.split(":");
         hour = Integer.parseInt(hourMin[0]);
@@ -30,7 +30,7 @@ public class LocalClock {
         return (hour * 60) + (minute * 60) + second;
     }
 
-    public long timeFormatting(LocalDateTime time) {
+    private long timeFormatting(LocalDateTime time) {
         var timeDiff = time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
         String[] hourMin = timeDiff.split(":");

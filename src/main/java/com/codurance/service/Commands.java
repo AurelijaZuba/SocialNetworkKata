@@ -22,7 +22,7 @@ public class Commands implements Formatter {
         this.console = consoleMock;
     }
 
-    public void follow(String message) {
+    void follow(String message) {
         String[] splitMessage = message.split(" ");
         final String userFollows = splitMessage[0].trim();
         final String userFollowing = splitMessage[2].trim();
@@ -38,7 +38,7 @@ public class Commands implements Formatter {
         messageRepository.addMessage(new Message(username, postMessage, clock.now()));
     }
 
-    public void wallRead(String post, String command) {
+    void wallRead(String post, String command) {
         String[] splitMessage = post.split(" ");
         String username = splitMessage[0];
 
@@ -50,7 +50,7 @@ public class Commands implements Formatter {
         hasFollowers(command, followersList);
     }
 
-    public void hasFollowers(String command, List<String> followersList) {
+    private void hasFollowers(String command, List<String> followersList) {
         for (var followerMessages : followersList) {
             List<Message> allMessages = messageRepository.getMessages(String.valueOf(followerMessages));
 
@@ -58,7 +58,7 @@ public class Commands implements Formatter {
         }
     }
 
-    public void getUserMessages(String command, List<Message> allMessages) {
+    private void getUserMessages(String command, List<Message> allMessages) {
         for (Message message : allMessages) {
             isCommand(command, message);
         }
