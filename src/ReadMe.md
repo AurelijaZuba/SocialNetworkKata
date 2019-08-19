@@ -2,10 +2,10 @@
 
 The application must use the console for input and output.   
 Users submit commands to the application. There are four commands. 'posting', 'reading', etc. are not part of the commands; commands always start with the user's name.  
-posting: <user name> -> <message>  
-reading: <user name>  
-following: <user name> follows <another user>  
-wall: <user name> wall  
+posting: *username* -> *message*  
+reading: *username*  
+following: *username* **follows** *another user*  
+wall: *username* wall  
 
 ***How to run the application:***   
 In your command line enter : **gradle jar**  
