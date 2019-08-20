@@ -1,16 +1,24 @@
 package com.codurance.service;
 
+import com.codurance.command.Follow;
+import com.codurance.command.Post;
+import com.codurance.command.Read;
+import com.codurance.command.Wall;
 import com.codurance.model.User;
 import com.codurance.repository.MessageRepository;
 import com.codurance.repository.UserRepository;
 
 public class SocialNetwork {
-    private Commands commands;
+    private final LocalClock clock;
     private UserRepository userRepository;
+    private final SocialConsole console;
+    private MessageRepository messageRepository;
 
-    public SocialNetwork(MessageRepository messageRepository, SocialConsole console, LocalClock clockMock, UserRepository userRepository) {
+    public SocialNetwork(MessageRepository messageRepository, UserRepository userRepository, LocalClock clock, SocialConsole console) {
+        this.messageRepository = messageRepository;
         this.userRepository = userRepository;
-        commands = new Commands(messageRepository, userRepository, clockMock, console);
+        this.clock = clock;
+        this.console = console;
     }
 
     public void messageParser(String message) {
@@ -24,16 +32,16 @@ public class SocialNetwork {
     public void messageCommand(String message, String[] splitWord) {
         switch (splitWord.length) {
             case 1:
-                commands.wallRead(message, "read");
+                new Read(messageRepository, userRepository, console, clock).execute(message);
                 break;
             case 2:
-                commands.wallRead(message, "wall");
+                new Wall(messageRepository, userRepository, console, clock).execute(message);
                 break;
             case 3:
-                commands.follow(message);
+                new Follow(userRepository).execute(message);
                 break;
             default:
-                commands.post(message);
+                new Post(messageRepository, clock).execute(message);
         }
     }
 

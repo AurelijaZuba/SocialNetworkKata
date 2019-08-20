@@ -25,7 +25,7 @@ public class FollowCommandsFeature {
 
         when(clock.now()).thenReturn(LocalDateTime.of(2019, Month.AUGUST, 14, 15, 19));
 
-        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, console, clock, userRepository);
+        SocialNetwork socialNetwork = new SocialNetwork(messageRepository, userRepository, clock, console);
 
         given(clock.calculateTimeDifference(clock.now())).willReturn(2, 300);
 
