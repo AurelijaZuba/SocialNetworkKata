@@ -161,5 +161,4 @@ public class SocialNetworkShould {
         verify(consoleMock).print("Charlie - I'm in New York today! Anyone want to have a coffee? (2 seconds ago)\n");
         verify(consoleMock).print(ALICE_POST_MESSAGE_WITH_TIME_STAMP_OF_FIVE_MINUTES);
     }
-
 }
