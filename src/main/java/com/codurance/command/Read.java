@@ -15,14 +15,12 @@ public class Read implements Command{
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final SocialConsole console;
-    private final LocalClock clock;
     private final Formatter formatter;
 
     public Read(MessageRepository messageRepository, UserRepository userRepository, SocialConsole console, LocalClock clock) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
         this.console = console;
-        this.clock = clock;
         formatter = new Formatter(this, clock);
 
     }

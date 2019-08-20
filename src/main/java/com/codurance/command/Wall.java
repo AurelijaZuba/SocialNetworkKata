@@ -16,15 +16,13 @@ public class Wall implements Command {
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final SocialConsole console;
-    private final LocalClock clock;
-    private final Formatter formatte;
+    private final Formatter formatter;
 
     public Wall(MessageRepository messageRepository, UserRepository userRepository, SocialConsole console, LocalClock clock) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
         this.console = console;
-        this.clock = clock;
-        formatte = new Formatter(this, clock);
+        formatter = new Formatter(this, clock);
     }
 
     @Override
@@ -56,7 +54,7 @@ public class Wall implements Command {
 
     private void isCommand(String command, Message message) {
         if (command.equals(WALL_COMMAND)) {
-            console.print(formatte.wallCommand(message));
+            console.print(formatter.wallCommand(message));
         }
     }
 }
