@@ -19,8 +19,8 @@ import static org.mockito.Mockito.verify;
 
 public class SocialNetworkShould {
 
-    private static final String ALICE_POST_MESSAGE_WITH_TIME_STAMP_OF_FIVE_MINUTES = "Alice - I love the weather today (5 minutes ago)";
-    private static final String MESSAGE_POSTED_BY_ALICE = "I love the weather today (5 minutes ago)";
+    private static final String ALICE_POST_MESSAGE_WITH_TIME_STAMP_OF_FIVE_MINUTES = "Alice - I love the weather today (5 minutes ago)\n";
+    private static final String MESSAGE_POSTED_BY_ALICE = "I love the weather today (5 minutes ago)\n";
     private final LocalDateTime dateTime = LocalDateTime.of(2019, Month.AUGUST, 18, 12, 19);
     private static final String ALICE_POST_MESSAGE = "Alice -> I love the weather today";
     private static final String BOB_POST_MESSAGE = "Bob -> Damn! We lost!";
@@ -86,7 +86,7 @@ public class SocialNetworkShould {
 
         socialNetwork.messageParser(BOB_POST_MESSAGE);
         socialNetwork.messageParser(BOB_WALL);
-        verify(consoleMock).print("Bob - Damn! We lost! (2 minutes ago)");
+        verify(consoleMock).print("Bob - Damn! We lost! (2 minutes ago)\n");
 
         socialNetwork.messageParser(ALICE_POST_MESSAGE);
         socialNetwork.messageParser(ALICE_WALL);
@@ -117,7 +117,7 @@ public class SocialNetworkShould {
         socialNetwork.messageParser(ALICE_USERNAME);
 
         verify(consoleMock).print(MESSAGE_POSTED_BY_ALICE);
-        verify(consoleMock).print("It's raining! (4 minutes ago)");
+        verify(consoleMock).print("It's raining! (4 minutes ago)\n");
     }
 
     @Test
@@ -131,8 +131,8 @@ public class SocialNetworkShould {
         socialNetwork.messageParser("Alice -> It's raining!");
         socialNetwork.messageParser(ALICE_USERNAME);
 
-        verify(consoleMock).print("I love the weather today (5 seconds ago)");
-        verify(consoleMock).print("It's raining! (4 minutes ago)");
+        verify(consoleMock).print("I love the weather today (5 seconds ago)\n");
+        verify(consoleMock).print("It's raining! (4 minutes ago)\n");
     }
 
     @Test
@@ -158,7 +158,7 @@ public class SocialNetworkShould {
         socialNetwork.messageParser("Charlie follows Alice");
         socialNetwork.messageParser("Charlie wall");
 
-        verify(consoleMock).print("Charlie - I'm in New York today! Anyone want to have a coffee? (2 seconds ago)");
+        verify(consoleMock).print("Charlie - I'm in New York today! Anyone want to have a coffee? (2 seconds ago)\n");
         verify(consoleMock).print(ALICE_POST_MESSAGE_WITH_TIME_STAMP_OF_FIVE_MINUTES);
     }
 

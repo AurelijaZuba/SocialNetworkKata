@@ -32,13 +32,13 @@ public class ReadCommandsFeature {
         socialNetwork.messageParser("Bob -> Good game though.");
         socialNetwork.messageParser("Alice");
 
-        verify(console).print("I love the weather today (5 minutes ago)");
-        verify(console, never()).print("Damn! We lost! (2 minutes ago)");
-        verify(console, never()).print("Good game though. (1 minutes ago)");
+        verify(console).print("I love the weather today (5 minutes ago)\n");
+        verify(console, never()).print("Damn! We lost! (2 minutes ago)\n");
+        verify(console, never()).print("Good game though. (1 minutes ago)\n");
 
         given(clock.calculateTimeDifference(clock.now())).willReturn(120, 60);
         socialNetwork.messageParser("Bob");
-        verify(console).print("Damn! We lost! (2 minutes ago)");
-        verify(console).print("Good game though. (1 minutes ago)");
+        verify(console).print("Damn! We lost! (2 minutes ago)\n");
+        verify(console).print("Good game though. (1 minutes ago)\n");
     }
 }

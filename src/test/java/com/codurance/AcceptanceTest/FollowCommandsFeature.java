@@ -35,8 +35,8 @@ public class FollowCommandsFeature {
         socialNetwork.messageParser("Charlie follows Alice");
         socialNetwork.messageParser("Charlie wall");
 
-        verify(console).print("Charlie - I'm in New York today! Anyone want to have a coffee? (2 seconds ago)");
-        verify(console).print("Alice - I love the weather today (5 minutes ago)");
-        verify(console, never()).print("Bob - Damn! We lost!");
+        verify(console).print("Charlie - I'm in New York today! Anyone want to have a coffee? (2 seconds ago)\n");
+        verify(console).print("Alice - I love the weather today (5 minutes ago)\n");
+        verify(console, never()).print("Bob - Damn! We lost!\n");
     }
 }

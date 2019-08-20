@@ -32,8 +32,8 @@ public class Formatter {
     private String timeDifference(LocalDateTime time) {
         var timeDifference = clock.calculateTimeDifference(time);
         if (timeDifference < 60) {
-            return " (" + timeDifference + " seconds ago)";
+            return " (" + timeDifference + " seconds ago)\n";
         }
-        return " (" + (timeDifference / 60) + " minutes ago)";
+        return " (" + (timeDifference / 60) + " minutes ago)\n";
     }
 }

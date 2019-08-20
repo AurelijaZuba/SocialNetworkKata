@@ -31,7 +31,7 @@ public class PostWallCommandsFeatures {
         socialNetwork.messageParser("Bob -> Damn! We lost!");
         socialNetwork.messageParser("Alice wall");
 
-        verify(console).print("Alice - I love the weather today (5 minutes ago)");
-        verify(console, never()).print("Bob - Damn! We lost! (2 minutes ago)");
+        verify(console).print("Alice - I love the weather today (5 minutes ago)\n");
+        verify(console, never()).print("Bob - Damn! We lost! (2 minutes ago)\n");
     }
 }
