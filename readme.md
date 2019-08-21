@@ -2,14 +2,17 @@
 
 The application must use the console for input and output.   
 Users submit commands to the application. There are four commands. 'posting', 'reading', etc. are not part of the commands; commands always start with the user's name.  
-posting: *username* -> *message*  
-reading: *username*  
-following: *username* **follows** *another user*  
-wall: *username* wall  
+posting: *username* -> *message*     
+reading: *username*   
+following: *username* **follows** *another user*    
+wall: *username* wall      
+
 
 ***How to run the application:***   
 In your command line enter : **gradle jar**  
 Following with: **java -jar ./build/libs/SocialNetworkKata.jar**    
+
+To exit the application type in ***exit*** in your console. 
 
 
 
